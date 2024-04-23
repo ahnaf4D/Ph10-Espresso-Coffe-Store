@@ -25,7 +25,6 @@ async function run() {
     .db('espressoCoffees')
     .collection('espressoCoffeesUsersCollection');
   try {
-    await client.connect();
     app.get('/', (req, res) => {
       res.send('Espresso Emporium Coffee Server');
     });
@@ -89,7 +88,26 @@ async function run() {
       const result = await cursor.toArray();
       res.send(result);
     });
-    await client.db('admin').command({ ping: 1 });
+    app.delete('/users/:id', async (req, res) => {
+      const id = req.params.id;
+      console.log(id);
+      const query = { _id: new ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
+      res.send(result);
+    });
+    app.patch('/users', async (req, res) => {
+      const user = req.body;
+      const filter = { email: user.email };
+      const updateDoc = {
+        $set: {
+          email: user.email,
+          lastLoggedAt: user.lastLoggedAt,
+        },
+      };
+      const options = { upsert: true };
+      const result = await userCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
     );
