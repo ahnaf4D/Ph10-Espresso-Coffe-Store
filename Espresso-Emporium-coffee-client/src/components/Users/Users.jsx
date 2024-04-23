@@ -7,7 +7,7 @@ export default function Users() {
   const loadUsersData = useLoaderData();
   const [users, setUsers] = useState(loadUsersData);
   const handleDeleteUser = (id) => {
-    fetch(`http://localhost:5000/users/${id}`, {
+    fetch(`https://coffee-store-server-ph.vercel.app/users/${id}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())

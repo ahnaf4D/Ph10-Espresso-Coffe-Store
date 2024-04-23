@@ -24,7 +24,7 @@ export default function AddCoffees() {
       details,
       photo,
     };
-    fetch('http://localhost:5000/add-coffee', {
+    fetch('https://coffee-store-server-ph.vercel.app/add-coffee', {
       method: 'POST',
       headers: {
         'Content-type': 'application/json',
