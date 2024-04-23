@@ -1,6 +1,35 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
 
 export default function Login() {
+  const { signInUser } = useContext(AuthContext);
+  const handleSignIn = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    signInUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        const user = {
+          email,
+          lastLoggedAt: result.user?.metadata?.lastSignInTime,
+        };
+        fetch(`http://localhost:5000/users`, {
+          method: 'PATCH',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(user),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
       <div className='min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
@@ -20,7 +49,7 @@ export default function Login() {
         </div>
         <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
           <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
-            <form className='space-y-6' action='#' method='POST'>
+            <form className='space-y-6' onSubmit={handleSignIn}>
               <div>
                 <label
                   htmlFor='email'
