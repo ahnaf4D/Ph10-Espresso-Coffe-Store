@@ -1,9 +1,49 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../AuthProvider/AuthProvider';
+import Swal from 'sweetalert2';
 
 export default function Signup() {
+  const { createUser } = useContext(AuthContext);
+  const handleSignUp = (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+    console.log(name, email, password);
+    createUser(email, password)
+      .then((result) => {
+        console.log(result.user);
+        const creationTime = result.user?.metadata?.creationTime;
+        const user = { email, creationTime };
+        // saving user information to mongodb
+        fetch(`http://localhost:5000/add-user`, {
+          method: 'POST',
+          headers: {
+            'Content-type': 'application/json',
+          },
+          body: JSON.stringify(user),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.insertedId) {
+              Swal.fire({
+                title: 'Success!',
+                text: 'User Added',
+                icon: 'success',
+              });
+              form.reset();
+            }
+          });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   return (
     <div>
-      {' '}
       <div className='min-h-screen bg-gray-100 flex flex-col justify-center py-12 sm:px-6 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-md'>
           <h2 className='mt-6 text-center text-3xl font-extrabold text-gray-900'>
@@ -21,7 +61,7 @@ export default function Signup() {
         </div>
         <div className='mt-8 sm:mx-auto sm:w-full sm:max-w-md'>
           <div className='bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10'>
-            <form className='space-y-6' action='#' method='POST'>
+            <form className='space-y-6' onSubmit={handleSignUp}>
               <div>
                 <label
                   htmlFor='name'
@@ -104,7 +144,7 @@ export default function Signup() {
                   type='submit'
                   className='group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500'
                 >
-                  Sign in
+                  Sign up
                 </button>
               </div>
             </form>
