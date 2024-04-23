@@ -21,6 +21,9 @@ async function run() {
   const espressoCollection = client
     .db('espressoCoffees')
     .collection('espressoCoffeesData');
+  const userCollection = client
+    .db('espressoCoffees')
+    .collection('espressoCoffeesUsersCollection');
   try {
     await client.connect();
     app.get('/', (req, res) => {
@@ -74,7 +77,18 @@ async function run() {
       const result = await espressoCollection.deleteOne(query);
       res.send(result);
     });
-
+    // User related apis
+    app.post('/add-user', async (req, res) => {
+      const userInfo = req.body;
+      console.log(userInfo);
+      const result = await userCollection.insertOne(userInfo);
+      res.send(result);
+    });
+    app.get('/users', async (req, res) => {
+      const cursor = userCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    });
     await client.db('admin').command({ ping: 1 });
     console.log(
       'Pinged your deployment. You successfully connected to MongoDB!'
