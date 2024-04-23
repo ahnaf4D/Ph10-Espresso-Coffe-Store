@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import Banner from '../../assets/more/3.png';
 import './Hero.css';
 export default function Hero() {
@@ -16,9 +17,11 @@ export default function Hero() {
           Get the nostalgia back!! Your companion of every moment!!! Enjoy the
           beautiful moments and make them memorable.
         </p>
-        <button className='bg-[#E3B577] text-[#242222] px-4 text-2xl rounded btn rancho'>
-          Learn More
-        </button>
+        <Link to='/login'>
+          <button className='bg-[#E3B577] text-[#242222] px-4 text-2xl rounded btn rancho'>
+            Login
+          </button>
+        </Link>
       </article>
     </div>
   );
