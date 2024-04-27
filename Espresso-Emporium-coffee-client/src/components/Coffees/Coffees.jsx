@@ -9,13 +9,13 @@ import Swal from 'sweetalert2';
 export default function Coffees() {
   const [coffees, setCoffees] = useState([]);
   useEffect(() => {
-    fetch(`https://coffee-store-server-ph.vercel.app/coffees`)
+    fetch(`http://localhost:5000/coffees`)
       .then((res) => res.json())
       .then((data) => setCoffees(data));
   }, []);
   const handleDeleteCoffee = (id) => {
     // console.log(id);
-    // fetch(`https://coffee-store-server-ph.vercel.app/coffees/${id}`, {
+    // fetch(`http://localhost:5000/coffees/${id}`, {
     //   method: 'DELETE',
     // })
     //   .then((res) => res.json())
@@ -30,7 +30,7 @@ export default function Coffees() {
       confirmButtonText: 'Yes, delete it!',
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://coffee-store-server-ph.vercel.app/coffees/${id}`, {
+        fetch(`http://localhost:5000/coffees/${id}`, {
           method: 'DELETE',
         })
           .then((res) => res.json())

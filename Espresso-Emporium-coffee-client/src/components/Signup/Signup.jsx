@@ -18,7 +18,7 @@ export default function Signup() {
         const creationTime = result.user?.metadata?.creationTime;
         const user = { email, creationTime };
         // saving user information to mongodb
-        fetch(`https://coffee-store-server-ph.vercel.app/add-user`, {
+        fetch(`http://localhost:5000/add-user`, {
           method: 'POST',
           headers: {
             'Content-type': 'application/json',

@@ -16,7 +16,7 @@ export default function Login() {
           email,
           lastLoggedAt: result.user?.metadata?.lastSignInTime,
         };
-        fetch(`https://coffee-store-server-ph.vercel.app/users`, {
+        fetch(`http://localhost:5000/users`, {
           method: 'PATCH',
           headers: {
             'Content-type': 'application/json',

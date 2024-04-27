@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import { MdDelete } from 'react-icons/md';
 import { useLoaderData } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -6,8 +7,20 @@ import Swal from 'sweetalert2';
 export default function Users() {
   const loadUsersData = useLoaderData();
   const [users, setUsers] = useState(loadUsersData);
+  // useEffect(() => {
+  //   fetch(`/`)
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //     });
+  // }, []);
+  // useEffect(() => {
+  //   axios.get('/').then((data) => {
+  //     console.log(data.data);
+  //   });
+  // }, []);
   const handleDeleteUser = (id) => {
-    fetch(`https://coffee-store-server-ph.vercel.app/users/${id}`, {
+    fetch(`http://localhost:5000/users/${id}`, {
       method: 'DELETE',
     })
       .then((res) => res.json())

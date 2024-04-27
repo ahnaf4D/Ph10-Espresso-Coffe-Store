@@ -25,16 +25,13 @@ export default function UpdateCoffees() {
       details,
       photo,
     };
-    fetch(
-      `https://coffee-store-server-ph.vercel.app/update-coffee/${oldCoffeeData._id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-type': 'application/json',
-        },
-        body: JSON.stringify(updatedCoffeeData),
-      }
-    )
+    fetch(`http://localhost:5000/update-coffee/${oldCoffeeData._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+      body: JSON.stringify(updatedCoffeeData),
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
